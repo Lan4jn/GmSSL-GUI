@@ -1,4 +1,4 @@
-import type { Session, KeyGenerationCapabilities, GenerateKeyRequest, GenerateKeyResponse, RevealPassphraseResponse, CertificateTreeResponse } from './types'
+import type { Session, KeyGenerationCapabilities, GenerateKeyRequest, GenerateKeyResponse, RevealPassphraseResponse, CertificateTreeResponse, StandardClientCertificate, StandardCertPageResult, IssueStandardCertRequest } from './types'
 let csrfToken = ''
 export const setCsrfToken = (token: string) => { csrfToken = token }
 export class ApiError extends Error {
@@ -45,4 +45,43 @@ export async function revealKeyPassphrase(projectId: string, keyId: string): Pro
 
 export async function getProjectCertificates(projectId: string): Promise<CertificateTreeResponse> {
   return request<CertificateTreeResponse>(`/projects/${projectId}/certificates`)
+}
+
+export async function listStandardCertificates(
+  projectId: string,
+  params: { fingerprint?: string; page?: number; size?: number } = {}
+): Promise<StandardCertPageResult> {
+  const query = new URLSearchParams()
+  if (params.fingerprint !== undefined && params.fingerprint !== '') {
+    query.set('fingerprint', params.fingerprint)
+  }
+  if (params.page !== undefined) {
+    query.set('page', String(params.page))
+  }
+  if (params.size !== undefined) {
+    query.set('size', String(params.size))
+  }
+  const qs = query.toString()
+  return request<StandardCertPageResult>(`/projects/${projectId}/standard-client-certificates${qs ? `?${qs}` : ''}`)
+}
+
+export async function issueStandardCertificate(
+  projectId: string,
+  payload: IssueStandardCertRequest
+): Promise<StandardClientCertificate> {
+  return post<StandardClientCertificate>(`/projects/${projectId}/standard-client-certificates`, payload)
+}
+
+export async function getStandardCertificate(
+  projectId: string,
+  id: string
+): Promise<StandardClientCertificate> {
+  return request<StandardClientCertificate>(`/projects/${projectId}/standard-client-certificates/${id}`)
+}
+
+export async function revokeStandardCertificate(
+  projectId: string,
+  id: string
+): Promise<StandardClientCertificate> {
+  return post<StandardClientCertificate>(`/projects/${projectId}/standard-client-certificates/${id}/revoke`)
 }

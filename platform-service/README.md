@@ -38,3 +38,19 @@ LMS/HSS/XMSS/XMSSMT的私钥仅允许由平台控制的四个keygen成功任务�
 `PlatformIntegrationTest` 通过真实Spring MockMvc、H2/Flyway与loopback HTTP engine fixture测试认证/CSRF/项目隔离/角色/跨项目引用与产物访问、vault错误主密钥/AAD/密文篡改、失败/取消、排队用户禁用或移除成员、stateful受控晋升/禁止导入导出/锁冲突/失败pending/启动恢复、秘密不进入preview或任务记录。
 
 fixture测试不等于GmSSL算法测试；原生算法与完整服务本机链路由integration/Lead另行实测。PostgreSQL、Linux容器以及断电故障尚需部署环境验证；正常JCE与H2测试不冒充这些验证。
+
+## 标准 RSA 客户端证书
+
+此入口使用独立的 X.509 签发 CA，不使用 engine 或材料库。管理员和固定项目服务账号操作同一台账。管理员路径 `/api/v1/projects/{pid}/standard-client-certificates` 使用现有 session；写操作还需 `X-CSRF-Token`。服务路径 `/integration/v1/projects/{pid}/standard-client-certificates` 只接受原生 HTTPS 上的专用 Bearer，不接受浏览器 cookie 或仅由代理提供的 HTTPS 头。
+
+| 运维配置 | 含义 |
+|---|---|
+| `GMSSL_STANDARD_CA_PKCS12` | 专用 PKCS12 密钥库的绝对路径，仅签发服务进程可读；不要复用 HTTPS 服务端密钥 |
+| `GMSSL_STANDARD_CA_PASSWORD`、`GMSSL_STANDARD_CA_ALIAS` | 密钥库与私钥使用同一密码，指定私钥条目别名。缺省不启用签发；部分配置或无效 CA 会阻止启动 |
+| `GMSSL_STANDARD_INTEGRATION_ENABLED` | 默认 `false`。设 `true` 时必须另配以下两项，并在服务自身启用 TLS |
+| `GMSSL_STANDARD_INTEGRATION_PROJECT_ID` | 一个已创建项目的 UUID，不支持通配或随请求切换 |
+| `GMSSL_STANDARD_INTEGRATION_TOKEN` | 以系统安全随机源新生成 32 字节、编码为无填充 base64url（43 字符）。不得复用其他密码、engine token、vault 密钥；只通过受控 secret 注入 |
+
+CA 公钥须 RSA 至少 3072 位，证书链在有效期内，带 CA 约束和 `keyCertSign`；加载时验证 CA 公私钥匹配。签发时只接收已用 `SHA256withRSA` 自签并通过验签的 RSA-3072 PKCS#10 PEM。叶证书只含 `CA:FALSE`、`digitalSignature` 和 `clientAuth`，CN 来自 `deviceLabel`，不采信 CSR 扩展或调用方指定的 CA；有效期最长 365 天且不超过签发链。仅向客户端分发公共 CA 证书，不分发 PKCS12。轮换专用 CA/凭据需更新受控配置并重启，轮换前安排下游信任链过渡。
+
+两个路径均提供 `POST {requestId,csrPem,deviceLabel}`、`GET ?fingerprint=&page=0&size=50`、`GET /{id}`、`POST /{id}/revoke`。列表返回 `{items,total}`；非空指纹为证书 DER 的精确小写 SHA-256 十六进制，页大小 1..100。其余成功返回同一条记录（`id,projectId,requestId,deviceLabel,fingerprint,serial,expiresAt,status,certificatePem,chainPem`），有效期为 epoch 毫秒，序列号为无前缀小写 hex，`chainPem` 仅含签发链。`requestId` 在项目内唯一；同一 CSR DER 和标签重试取回已有状态，更改任一项返回 409。撤销更新服务台账，不是对任何第三方 TLS 引擎自动发布 CRL/OCSP；下游必须按策略查询状态。Flyway 使用 V7；达梦禁用 Flyway，已有 DM8 模式由 DBA 应用初始化脚本第 8 节的增量 DDL。

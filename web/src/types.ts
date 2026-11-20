@@ -175,3 +175,29 @@ export interface CertificateTreeResponse {
   bundles: BundleNode[]
 }
 
+export type StandardCertStatus = 'VALID' | 'REVOKED' | 'EXPIRED'
+
+export interface StandardClientCertificate {
+  id: string
+  projectId: string
+  requestId: string
+  deviceLabel: string
+  fingerprint: string
+  serial: string
+  expiresAt: number // epoch ms
+  status: StandardCertStatus
+  certificatePem: string
+  chainPem?: string
+}
+
+export interface StandardCertPageResult {
+  items: StandardClientCertificate[]
+  total: number
+}
+
+export interface IssueStandardCertRequest {
+  requestId: string
+  csrPem: string
+  deviceLabel: string
+}
+

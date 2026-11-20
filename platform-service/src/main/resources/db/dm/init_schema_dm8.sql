@@ -1,6 +1,6 @@
 -- 达梦数据库 (DM8) 初始化 DDL 脚本
 -- 适用版本：DM8 (DaMeng Database 8)
--- 包含内容：对齐平台 V1 ~ V6 所有数据表结构、约束、索引与列属性
+-- 包含内容：对齐平台 V1 ~ V7 所有数据表结构、约束、索引与列属性
 -- 执行约束：
 -- 1. 建议在独立的空模式 (例如 GMSSL_TEST) 下由 DBA 预先执行
 -- 2. 字段类型适配说明：
@@ -124,3 +124,21 @@ CREATE TABLE key_credentials (
   created_at VARCHAR(40) NOT NULL,
   updated_at VARCHAR(40) NOT NULL
 );
+
+-- 8. 标准客户端证书 (V7)
+create table standard_client_certs (
+  id varchar(36) primary key,
+  project_id varchar(36) not null references projects(id),
+  request_id varchar(100) not null,
+  csr_digest varchar(64) not null,
+  device_label varchar(200) not null,
+  fingerprint varchar(64) not null unique,
+  serial_hex varchar(40) not null unique,
+  expires_at bigint not null,
+  certificate_pem CLOB not null,
+  chain_pem CLOB not null,
+  issued_at bigint not null,
+  revoked_at bigint,
+  unique(project_id,request_id)
+);
+create index std_cert_page on standard_client_certs(project_id,issued_at,id);
