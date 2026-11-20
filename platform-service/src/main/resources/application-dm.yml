@@ -1,0 +1,16 @@
+# 达梦数据库 (DM8) 运行配置
+# 启用方式：SPRING_PROFILES_ACTIVE=dm
+spring:
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  flyway:
+    enabled: false

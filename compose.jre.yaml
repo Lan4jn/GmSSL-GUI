@@ -1,0 +1,96 @@
+name: gmssl-gui-release
+
+services:
+  engine:
+    image: ${GMSSL_JRE_IMAGE:?Set GMSSL_JRE_IMAGE in environment}
+    platform: linux/amd64
+    user: "${GMSSL_CONTAINER_USER:-10001:10001}"
+    entrypoint: ["java", "-jar", "/app/service.jar"]
+    volumes:
+      - ./artifacts/engine-service-0.1.0-SNAPSHOT.jar:/app/service.jar:ro
+      - ./artifacts/gmssl-runner:/app/gmssl-runner:ro
+      - ./artifacts/GMSSL-LICENSE:/app/GMSSL-LICENSE:ro
+    environment:
+      SERVER_PORT: "8081"
+      GMSSL_ENGINE_TOKEN: ${GMSSL_ENGINE_TOKEN:?Set engine token in private env}
+      GMSSL_RUNNER_PATH: /app/gmssl-runner
+      GMSSL_ENGINE_WORK_DIR: /work
+      GMSSL_ENGINE_ALLOWED_HOSTS: "127.0.0.1,::1"
+      GMSSL_ENGINE_ALLOWED_PORTS: "14433,14434,14435,14436,14437,14438"
+      GMSSL_ENGINE_ALLOW_LOOPBACK: "true"
+      GMSSL_OPENSSL_PATH: /usr/bin/openssl
+    expose: ["8081"]
+    networks: [backend]
+    init: true
+    read_only: true
+    tmpfs:
+      - /work:mode=0700,uid=10001,gid=10001,size=268435456
+      - /tmp:mode=1777,size=67108864
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2
+    restart: unless-stopped
+    logging:
+      options: {max-size: "10m", max-file: "3"}
+
+  platform:
+    image: ${GMSSL_JRE_IMAGE:?Set GMSSL_JRE_IMAGE in environment}
+    platform: linux/amd64
+    user: "${GMSSL_CONTAINER_USER:-10001:10001}"
+    entrypoint: ["java", "-jar", "/app/service.jar"]
+    volumes:
+      - ./artifacts/platform-service-0.1.0-SNAPSHOT.jar:/app/service.jar:ro
+      - vault-data:/data
+    environment:
+      SERVER_PORT: "8080"
+      GMSSL_ENGINE_URL: http://engine:8081
+      GMSSL_ENGINE_TOKEN: ${GMSSL_ENGINE_TOKEN:?Set engine token in private env}
+      GMSSL_VAULT_DIR: /data/vault
+      GMSSL_SESSION_COOKIE_SECURE: ${GMSSL_SESSION_COOKIE_SECURE:-true}
+      GMSSL_VAULT_MASTER_KEY: ${GMSSL_VAULT_MASTER_KEY:?Set base64 32-byte vault master key}
+      GMSSL_BOOTSTRAP_USERNAME: ${GMSSL_BOOTSTRAP_USERNAME:?Set bootstrap username}
+      GMSSL_BOOTSTRAP_PASSWORD: ${GMSSL_BOOTSTRAP_PASSWORD:?Set bootstrap password}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dm}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:?Set Dameng DM8 JDBC URL jdbc:dm://HOST:PORT?schema=SCHEMA}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:?Set Dameng database username}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:?Set Dameng database password}
+    expose: ["8080"]
+    depends_on:
+      engine: {condition: service_started}
+    networks: [frontend, backend]
+    init: true
+    read_only: true
+    tmpfs: ["/tmp:mode=1777,size=67108864"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2
+    restart: unless-stopped
+    logging:
+      options: {max-size: "10m", max-file: "3"}
+
+  web:
+    image: ${GMSSL_NGINX_IMAGE:-nginx:1.28-alpine}
+    platform: linux/amd64
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./artifacts/web-dist:/usr/share/nginx/html:ro
+    ports:
+      - "${GMSSL_BIND_ADDRESS:-127.0.0.1}:${GMSSL_WEB_PORT:-8088}:80"
+    depends_on:
+      platform: {condition: service_started}
+    networks: [frontend]
+    restart: unless-stopped
+    logging:
+      options: {max-size: "10m", max-file: "3"}
+
+networks:
+  frontend: {}
+  backend:
+    internal: true
+
+volumes:
+  vault-data: {}

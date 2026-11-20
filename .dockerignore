@@ -1,0 +1,13 @@
+.git
+.tools
+.env
+.env.*
+.admin-credentials
+.runtime
+.data
+**/target
+web/node_modules
+web/dist
+native/.cache
+native/.build
+*.log

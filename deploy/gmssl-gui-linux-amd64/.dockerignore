@@ -1,0 +1,9 @@
+*
+!docker
+!docker/*
+!config
+!config/*
+!artifacts
+!artifacts/*
+!artifacts/web-dist
+!artifacts/web-dist/**

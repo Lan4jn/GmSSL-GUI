@@ -1,0 +1,1382 @@
+{
+  "tools": [
+    {
+      "id": "api_digest",
+      "command": "api_digest",
+      "title": "SHA/SM3摘要与SHAKE",
+      "category": "digest",
+      "description": "SHAKE必须outlen；固定摘要禁止outlen。SHA3公开API仅256/512。",
+      "parameters": [
+        {
+          "name": "alg",
+          "flag": "-alg",
+          "label": "算法名称",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "sm3",
+            "sha1",
+            "sha224",
+            "sha256",
+            "sha384",
+            "sha512",
+            "sha512-224",
+            "sha512-256",
+            "sha3-256",
+            "sha3-512",
+            "shake128",
+            "shake256"
+          ],
+          "defaultValue": "sm3",
+          "recommendation": "推荐国密标准 SM3 密码杂凑算法。",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "outlen",
+          "flag": "-outlen",
+          "label": "输出字节数",
+          "type": "INTEGER",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 1,
+          "max": 4096,
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待计算摘要文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "摘要输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "digest.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_digest.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_hmac",
+      "command": "api_hmac",
+      "title": "通用HMAC",
+      "category": "mac",
+      "description": "固定GmSSL公开C API适配；长度、认证和参数组合检查见coverage-api.md。",
+      "parameters": [
+        {
+          "name": "alg",
+          "flag": "-alg",
+          "label": "算法名称",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "sm3",
+            "sha1",
+            "sha224",
+            "sha256",
+            "sha384",
+            "sha512",
+            "sha512-224",
+            "sha512-256"
+          ],
+          "defaultValue": "sm3",
+          "recommendation": "推荐基于 SM3 的 HMAC。",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "MAC密钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "allowKeyReference": true,
+          "min": 0,
+          "max": 8192,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待计算MAC文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "MAC输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "hmac.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_hmac.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_hkdf",
+      "command": "api_hkdf",
+      "title": "HKDF Extract+Expand",
+      "category": "kdf",
+      "description": "固定GmSSL公开C API适配；长度、认证和参数组合检查见coverage-api.md。",
+      "parameters": [
+        {
+          "name": "alg",
+          "flag": "-alg",
+          "label": "算法名称",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "sm3",
+            "sha1",
+            "sha224",
+            "sha256",
+            "sha384",
+            "sha512",
+            "sha512-224",
+            "sha512-256"
+          ],
+          "defaultValue": "sm3",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "salt",
+          "flag": "-salt",
+          "label": "盐值 (Salt)",
+          "type": "HEX",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 128,
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "info",
+          "flag": "-info",
+          "label": "上下文信息 (Info)",
+          "type": "HEX",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 8192,
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "outlen",
+          "flag": "-outlen",
+          "label": "输出字节数",
+          "type": "INTEGER",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 1,
+          "max": 4096,
+          "defaultValue": 32,
+          "recommendation": "推荐派生 32 字节对称密钥。",
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "输入密钥材料文件 (IKM)",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "派生密钥输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "hkdf_key.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_hkdf.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_pbkdf2",
+      "command": "api_pbkdf2",
+      "title": "PBKDF2-HMAC",
+      "category": "kdf",
+      "description": "固定GmSSL公开C API适配；长度、认证和参数组合检查见coverage-api.md。",
+      "parameters": [
+        {
+          "name": "alg",
+          "flag": "-alg",
+          "label": "算法名称",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "sm3",
+            "sha1",
+            "sha224",
+            "sha256",
+            "sha384",
+            "sha512",
+            "sha512-224",
+            "sha512-256"
+          ],
+          "defaultValue": "sm3",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "pass",
+          "flag": "-pass",
+          "label": "私钥密码",
+          "type": "SECRET",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "max": 4096,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "salt",
+          "flag": "-salt",
+          "label": "盐值 (Salt)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 128,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "iter",
+          "flag": "-iter",
+          "label": "迭代次数",
+          "type": "INTEGER",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 1,
+          "max": 1000000,
+          "defaultValue": 10000,
+          "recommendation": "推荐不低于 10000 次密码哈希迭代。",
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "outlen",
+          "flag": "-outlen",
+          "label": "输出字节数",
+          "type": "INTEGER",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 1,
+          "max": 4096,
+          "defaultValue": 32,
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "派生密钥输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "pbkdf2_key.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": false,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_pbkdf2.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_sm3_kdf",
+      "command": "api_sm3_kdf",
+      "title": "SM3计数器KDF",
+      "category": "kdf",
+      "description": "固定GmSSL公开C API适配；长度、认证和参数组合检查见coverage-api.md。",
+      "parameters": [
+        {
+          "name": "outlen",
+          "flag": "-outlen",
+          "label": "输出字节数",
+          "type": "INTEGER",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 1,
+          "max": 4096,
+          "defaultValue": 32,
+          "recommendation": "SM3-KDF 推荐派生 32 字节密钥。",
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "输入密钥材料文件 (Z)",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "派生密钥输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "kdf_key.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_sm3_kdf.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_aes",
+      "command": "api_aes",
+      "title": "AES 128/192/256",
+      "category": "symmetric",
+      "description": "二进制；GCM/CCM密文附加tag，解密完整验tag后才交付明文。CBC padding缺省none。",
+      "parameters": [
+        {
+          "name": "mode",
+          "flag": "-mode",
+          "label": "分组模式 (ECB/CBC/CTR/GCM/CCM)",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "ecb",
+            "cbc",
+            "ctr",
+            "gcm",
+            "ccm"
+          ],
+          "defaultValue": "cbc",
+          "recommendation": "推荐使用 cbc 或 gcm 模式。",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "op",
+          "flag": "-op",
+          "label": "操作类型 (encrypt/decrypt)",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "encrypt",
+            "decrypt"
+          ],
+          "defaultValue": "encrypt",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "对称密钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "allowKeyReference": true,
+          "min": 0,
+          "max": 64,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "iv",
+          "flag": "-iv",
+          "label": "初始向量 (IV)",
+          "type": "HEX",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 64,
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "aad",
+          "flag": "-aad",
+          "label": "附加认证数据 (AAD)",
+          "type": "HEX",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 8192,
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "taglen",
+          "flag": "-taglen",
+          "label": "认证标签长度",
+          "type": "INTEGER",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 4,
+          "max": 16,
+          "recommendation": "GCM/CCM 模式缺省即为 16 字节认证标签，CBC/CTR/ECB 模式禁止提供此参数。",
+          "advanced": true,
+          "preferred": false,
+          "formatHint": "4..16 (GCM可选4,8,12..16; CCM可选4..16偶数; 缺省为16)"
+        },
+        {
+          "name": "padding",
+          "flag": "-padding",
+          "label": "填充方式",
+          "type": "ENUM",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "pkcs7",
+            "none"
+          ],
+          "advanced": true,
+          "preferred": false,
+          "recommendation": "仅适用于 CBC 模式；默认为 none，可选 pkcs7 填充。其他模式禁止填写。",
+          "formatHint": "可选 pkcs7 / none (仅CBC模式)"
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待加密/解密数据文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "密文/明文输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "cipher.bin",
+          "advanced": false,
+          "preferred": true
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_aes.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_ec_public",
+      "command": "api_ec_public",
+      "title": "椭圆曲线公钥派生",
+      "category": "asymmetric",
+      "description": "固定GmSSL公开C API适配；长度、认证和参数组合检查见coverage-api.md。",
+      "parameters": [
+        {
+          "name": "curve",
+          "flag": "-curve",
+          "label": "椭圆曲线",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "P256",
+            "P384",
+            "sm2"
+          ],
+          "defaultValue": "sm2",
+          "recommendation": "推荐国密 SM2 曲线 (sm2)，亦支持国际标准曲线 P256 / P384。",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "椭圆曲线私钥标量 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "min": 0,
+          "max": 96,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "公钥输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "ec_pub.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": false,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_ec_public.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_ec_sign",
+      "command": "api_ec_sign",
+      "title": "P256/P384 ECDSA签名",
+      "category": "asymmetric",
+      "description": "输入消息先做指定digest，再原生ECDSA，输出DER签名。",
+      "parameters": [
+        {
+          "name": "curve",
+          "flag": "-curve",
+          "label": "椭圆曲线",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "P256",
+            "P384"
+          ],
+          "defaultValue": "P256",
+          "advanced": false,
+          "preferred": true,
+          "recommendation": "NIST 椭圆曲线签名，支持 P256 / P384。"
+        },
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "椭圆曲线私钥标量 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "min": 0,
+          "max": 96,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "alg",
+          "flag": "-alg",
+          "label": "算法名称",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "sha256",
+            "sha384"
+          ],
+          "defaultValue": "sha256",
+          "advanced": false,
+          "preferred": true,
+          "recommendation": "推荐 sha256 杂凑算法（P384推荐sha384）。"
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待签名数据文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "签名输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "sig.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_ec_sign.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_ec_verify",
+      "command": "api_ec_verify",
+      "title": "P256/P384 ECDSA验签",
+      "category": "asymmetric",
+      "description": "pub是未压缩点HEX，sig是DER签名HEX；成功exit0，错误非0。",
+      "parameters": [
+        {
+          "name": "curve",
+          "flag": "-curve",
+          "label": "椭圆曲线",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "P256",
+            "P384"
+          ],
+          "defaultValue": "P256",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "pub",
+          "flag": "-pub",
+          "label": "对端公钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 194,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "alg",
+          "flag": "-alg",
+          "label": "算法名称",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "sha256",
+            "sha384"
+          ],
+          "defaultValue": "sha256",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "sig",
+          "flag": "-sig",
+          "label": "ECDSA签名 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 16,
+          "max": 208,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待验签原始数据文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "验签状态输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_ec_verify.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_ecdh",
+      "command": "api_ecdh",
+      "title": "P256/P384 ECDH",
+      "category": "asymmetric",
+      "description": "输出共享点X坐标；不是完整协商协议，后续需KDF。",
+      "parameters": [
+        {
+          "name": "curve",
+          "flag": "-curve",
+          "label": "椭圆曲线",
+          "type": "ENUM",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "options": [
+            "P256",
+            "P384"
+          ],
+          "defaultValue": "P256",
+          "advanced": false,
+          "preferred": true,
+          "recommendation": "NIST 椭圆曲线 Diffie-Hellman，支持 P256 / P384。"
+        },
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "椭圆曲线私钥标量 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "min": 0,
+          "max": 96,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "pub",
+          "flag": "-pub",
+          "label": "对端公钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "max": 194,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "共享秘密输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "shared_secret.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": false,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_ecdh.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_sm2_ecdh",
+      "command": "api_sm2_ecdh",
+      "title": "SM2 ECDH",
+      "category": "asymmetric",
+      "description": "sm2_ecdh输出共享点X坐标；与含身份/确认的SM2密钥交换协议不同。",
+      "parameters": [
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "SM2私钥标量 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "secret": true,
+          "min": 0,
+          "max": 64,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "pub",
+          "flag": "-pub",
+          "label": "对端公钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "详见native/coverage-api.md的精确约束",
+          "min": 130,
+          "max": 130,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "SM2共享秘密输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "详见native/coverage-api.md的精确约束",
+          "defaultValue": "sm2_shared_secret.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": false,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_sm2_ecdh.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_zuc_mac",
+      "command": "api_zuc_mac",
+      "title": "api_zuc_mac",
+      "category": "digest",
+      "description": "ZUC-128 MAC 原语操作；密钥16字节Hex，IV 16字节Hex，输出4字节MAC (32-bit)。详见 native/coverage-api.md",
+      "parameters": [
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "ZUC MAC密钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "16字节密钥Hex (32字符)",
+          "secret": true,
+          "allowKeyReference": true,
+          "allowedKeyKinds": [
+            "SYMMETRIC_KEY"
+          ],
+          "min": 32,
+          "max": 32,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "iv",
+          "flag": "-iv",
+          "label": "初始向量 (IV)",
+          "type": "HEX",
+          "required": true,
+          "description": "16字节IV Hex (32字符)",
+          "min": 32,
+          "max": 32,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "nbits",
+          "flag": "-nbits",
+          "label": "比特长度",
+          "type": "INTEGER",
+          "required": false,
+          "description": "输入比特数；缺省为输入字节数*8。若指定则必须满足 ceil(nbits/8) == 实际输入字节数，末尾未用bit必须全0",
+          "min": 0,
+          "max": 134217728,
+          "formatHint": "输入数据比特数 (例如 8 * 字节数)",
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待计算MAC数据文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "输入数据文件；省略时自标准输入读取",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "MAC标签输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "输出MAC文件；省略时输出至标准输出",
+          "defaultValue": "zuc_mac.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出4字节；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_zuc_mac.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_zuc256_mac",
+      "command": "api_zuc256_mac",
+      "title": "api_zuc256_mac",
+      "category": "digest",
+      "description": "ZUC-256 MAC 原语操作；密钥32字节Hex，IV 23字节Hex，支持32/64/128位MAC。详见 native/coverage-api.md",
+      "parameters": [
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "ZUC-256 MAC密钥 (HEX)",
+          "type": "HEX",
+          "required": true,
+          "description": "32字节密钥Hex (64字符)",
+          "secret": true,
+          "allowKeyReference": true,
+          "allowedKeyKinds": [
+            "SYMMETRIC_KEY"
+          ],
+          "min": 64,
+          "max": 64,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "iv",
+          "flag": "-iv",
+          "label": "初始向量 (IV)",
+          "type": "HEX",
+          "required": true,
+          "description": "23字节IV Hex (46字符)",
+          "min": 46,
+          "max": 46,
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "macbits",
+          "flag": "-macbits",
+          "label": "MAC长度 (32/64/128)",
+          "type": "ENUM",
+          "required": false,
+          "description": "输出MAC长度(比特数)：32、64或128，缺省32",
+          "options": [
+            32,
+            64,
+            128
+          ],
+          "defaultValue": 128,
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "nbits",
+          "flag": "-nbits",
+          "label": "比特长度",
+          "type": "INTEGER",
+          "required": false,
+          "description": "输入比特数；缺省为输入字节数*8。若指定则必须满足 ceil(nbits/8) == 实际输入字节数，末尾未用bit必须全0",
+          "min": 0,
+          "max": 134217728,
+          "formatHint": "输入数据比特数 (例如 8 * 字节数)",
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "待计算MAC数据文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "输入数据文件；省略时自标准输入读取",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "MAC标签输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "输出MAC文件；省略时输出至标准输出",
+          "defaultValue": "zuc_mac.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_zuc256_mac.bin",
+      "sensitiveOutput": false,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    },
+    {
+      "id": "api_sm9_kem",
+      "command": "api_sm9_kem",
+      "title": "api_sm9_kem",
+      "category": "asymmetric",
+      "description": "SM9 密钥封装机制 (KEM) 原语操作；封装输出共享密钥 K (out) 与 65字节未压缩椭圆曲线点 C (cipherout)；解封装输入 C 与用户私钥，解出共享密钥 K。详见 native/coverage-api.md",
+      "parameters": [
+        {
+          "name": "op",
+          "flag": "-op",
+          "label": "操作类型 (encrypt/decrypt)",
+          "type": "ENUM",
+          "required": true,
+          "description": "操作类型：encrypt (封装) 或 decrypt (解封装)",
+          "options": [
+            "encrypt",
+            "decrypt"
+          ],
+          "defaultValue": "encrypt",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "pubmaster",
+          "flag": "-pubmaster",
+          "label": "主公钥文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "SM9 加密主公钥 PEM 文件 (encrypt 时必需)",
+          "allowedKeyKinds": [
+            "PUBLIC_KEY"
+          ],
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "key",
+          "flag": "-key",
+          "label": "私钥文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "SM9 加密用户私钥 PEM 文件 (decrypt 时必需)",
+          "allowedKeyKinds": [
+            "PRIVATE_KEY"
+          ],
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "pass",
+          "flag": "-pass",
+          "label": "私钥密码",
+          "type": "STRING",
+          "required": false,
+          "description": "解密用户私钥的口令 (decrypt 时必需)",
+          "secret": true,
+          "min": 1,
+          "max": 4096,
+          "credentialKeyParameter": "key",
+          "advanced": true,
+          "preferred": false
+        },
+        {
+          "name": "id",
+          "flag": "-id",
+          "label": "用户身份标识",
+          "type": "STRING",
+          "required": true,
+          "description": "用户身份标识 (ID)",
+          "min": 1,
+          "max": 8191,
+          "defaultValue": "Bob",
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "outlen",
+          "flag": "-outlen",
+          "label": "输出字节数",
+          "type": "INTEGER",
+          "required": true,
+          "description": "导出的共享密钥 K 字节长度 (1..4096)",
+          "min": 1,
+          "max": 4096,
+          "defaultValue": 32,
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "cipherout",
+          "flag": "-cipherout",
+          "label": "密文输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "封装密文点 C (65字节未压缩点) 输出文件路径 (encrypt 时必需)",
+          "defaultValue": "kem_cipher.bin",
+          "advanced": false,
+          "preferred": false
+        },
+        {
+          "name": "in",
+          "flag": "-in",
+          "label": "输入明文文件",
+          "type": "INPUT_FILE",
+          "required": false,
+          "description": "解封装输入的密文点 C 文件 (可为65字节二进制或130字符Hex)；省略时自标准输入读取",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "out",
+          "flag": "-out",
+          "label": "封装密钥输出文件",
+          "type": "OUTPUT_FILE",
+          "required": false,
+          "description": "输出共享密钥 K 文件；省略时输出至标准输出",
+          "defaultValue": "kem_key.bin",
+          "advanced": false,
+          "preferred": true
+        },
+        {
+          "name": "bin",
+          "flag": "-bin",
+          "label": "原始二进制格式",
+          "type": "BOOLEAN",
+          "required": false,
+          "description": "以原始二进制输出共享密钥 K 与密文 C；缺省小写HEX加换行",
+          "advanced": true,
+          "preferred": false
+        }
+      ],
+      "acceptsStdin": true,
+      "stdoutMediaType": "application/octet-stream",
+      "stdoutFilename": "api_sm9_kem.bin",
+      "sensitiveOutput": true,
+      "defaultTimeoutSeconds": 30,
+      "maxTimeoutSeconds": 300,
+      "adminOnly": false,
+      "stateful": false,
+      "verification": {
+        "status": "tested",
+        "evidence": "native/extension-tests.py: 231 standalone ASan/UBSan invocations PASS; native/.extension-test-build/asan-tests.log; adapter/native test only, HTTP integration separate; constraints native/coverage-api.md"
+      }
+    }
+  ]
+}

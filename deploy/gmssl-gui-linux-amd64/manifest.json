@@ -1,0 +1,43 @@
+{
+  "name": "gmssl-gui-linux-amd64",
+  "version": "0.1.5",
+  "target_architecture": "linux-amd64",
+  "delivery_model": "precompiled-docker-compose-dm8",
+  "database": "Dameng Database (DM8) External Connection",
+  "verification_mode": "offline-structure-only",
+  "created_at": "2026-10-23T02:11:31.695907+00:00",
+  "runtime_base_images": {
+    "engine": "gmssl-gui/engine:0.1.0-linux-amd64 (base: eclipse-temurin:21-jre-jammy)",
+    "platform": "gmssl-gui/platform:0.1.0-linux-amd64 (base: eclipse-temurin:21-jre-jammy)",
+    "web": "gmssl-gui/web:0.1.0-linux-amd64 (base: nginx:1.28-alpine)"
+  },
+  "artifacts": {
+    "artifacts/GMSSL-LICENSE": {
+      "size": 9210
+    },
+    "artifacts/platform-service-0.1.0-SNAPSHOT.jar": {
+      "size": 27003127
+    },
+    "artifacts/01_schema_dm8.sql": {
+      "size": 4040
+    },
+    "artifacts/gmssl-runner": {
+      "size": 8048240
+    },
+    "artifacts/engine-service-0.1.0-SNAPSHOT.jar": {
+      "size": 23773048
+    },
+    "artifacts/migrations/00_schema_version_and_baseline.sql": {
+      "size": 4964
+    },
+    "artifacts/web-dist/index.html": {
+      "size": 412
+    },
+    "artifacts/web-dist/assets/index-QFHoFT_z.css": {
+      "size": 44389
+    },
+    "artifacts/web-dist/assets/index-DnUD0EaG.js": {
+      "size": 225369
+    }
+  }
+}

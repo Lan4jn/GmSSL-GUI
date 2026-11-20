@@ -1,0 +1,10 @@
+services:
+  engine:
+    networks:
+      - default
+      - protocol-egress
+
+networks:
+  protocol-egress:
+    name: gmssl-protocol-egress
+    external: true

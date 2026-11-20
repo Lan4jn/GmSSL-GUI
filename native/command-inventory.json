@@ -1,0 +1,817 @@
+[
+  {
+    "command": "rand",
+    "scope": "software",
+    "category": "random",
+    "operations": [
+      "rand"
+    ],
+    "statefulInput": null,
+    "source": "tools/rand.c"
+  },
+  {
+    "command": "certgen",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "certgen"
+    ],
+    "statefulInput": null,
+    "source": "tools/certgen.c"
+  },
+  {
+    "command": "certparse",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "certparse"
+    ],
+    "statefulInput": null,
+    "source": "tools/certparse.c"
+  },
+  {
+    "command": "certverify",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "certverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/certverify.c"
+  },
+  {
+    "command": "certrevoke",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "certrevoke"
+    ],
+    "statefulInput": null,
+    "source": "tools/certrevoke.c"
+  },
+  {
+    "command": "ocspreq",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "ocspreq"
+    ],
+    "statefulInput": null,
+    "source": "tools/ocspreq.c"
+  },
+  {
+    "command": "ocspget",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "ocspget"
+    ],
+    "statefulInput": null,
+    "source": "tools/ocspget.c"
+  },
+  {
+    "command": "ocspsign",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "ocspsign"
+    ],
+    "statefulInput": null,
+    "source": "tools/ocspsign.c"
+  },
+  {
+    "command": "ocspverify",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "ocspverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/ocspverify.c"
+  },
+  {
+    "command": "crlget",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "crlget"
+    ],
+    "statefulInput": null,
+    "source": "tools/crlget.c"
+  },
+  {
+    "command": "crlgen",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "crlgen"
+    ],
+    "statefulInput": null,
+    "source": "tools/crlgen.c"
+  },
+  {
+    "command": "crlparse",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "crlparse"
+    ],
+    "statefulInput": null,
+    "source": "tools/crlparse.c"
+  },
+  {
+    "command": "crlverify",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "crlverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/crlverify.c"
+  },
+  {
+    "command": "reqgen",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "reqgen"
+    ],
+    "statefulInput": null,
+    "source": "tools/reqgen.c"
+  },
+  {
+    "command": "reqparse",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "reqparse"
+    ],
+    "statefulInput": null,
+    "source": "tools/reqparse.c"
+  },
+  {
+    "command": "reqsign",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "reqsign"
+    ],
+    "statefulInput": null,
+    "source": "tools/reqsign.c"
+  },
+  {
+    "command": "sm2keygen",
+    "scope": "software",
+    "category": "key",
+    "operations": [
+      "sm2keygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm2keygen.c"
+  },
+  {
+    "command": "sm2sign",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm2sign"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm2sign.c"
+  },
+  {
+    "command": "sm2verify",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm2verify"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm2verify.c"
+  },
+  {
+    "command": "sm2encrypt",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm2encrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm2encrypt.c"
+  },
+  {
+    "command": "sm2decrypt",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm2decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm2decrypt.c"
+  },
+  {
+    "command": "sm2exch",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "init",
+      "respond",
+      "confirm",
+      "finish"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm2exch.c"
+  },
+  {
+    "command": "sm3",
+    "scope": "software",
+    "category": "digest",
+    "operations": [
+      "sm3"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm3.c"
+  },
+  {
+    "command": "sm3_hmac",
+    "scope": "software",
+    "category": "mac",
+    "operations": [
+      "sm3_hmac"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm3_hmac.c"
+  },
+  {
+    "command": "sm3_pbkdf2",
+    "scope": "software",
+    "category": "kdf",
+    "operations": [
+      "sm3_pbkdf2"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm3_pbkdf2.c"
+  },
+  {
+    "command": "sm4_ecb",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_ecb.c"
+  },
+  {
+    "command": "sm4_cbc",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_cbc.c"
+  },
+  {
+    "command": "sm4_ctr",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_ctr.c"
+  },
+  {
+    "command": "sm4_cfb",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_cfb.c"
+  },
+  {
+    "command": "sm4_ofb",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_ofb.c"
+  },
+  {
+    "command": "sm4_ccm",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_ccm.c"
+  },
+  {
+    "command": "sm4_gcm",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_gcm.c"
+  },
+  {
+    "command": "sm4_xts",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_xts.c"
+  },
+  {
+    "command": "sm4_ff1",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "encrypt",
+      "decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_ff1.c"
+  },
+  {
+    "command": "sm4_cbc_mac",
+    "scope": "software",
+    "category": "mac",
+    "operations": [
+      "sm4_cbc_mac"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm4_cbc_mac.c"
+  },
+  {
+    "command": "zuc",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "zuc"
+    ],
+    "statefulInput": null,
+    "source": "tools/zuc.c"
+  },
+  {
+    "command": "zuc256",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "zuc256"
+    ],
+    "statefulInput": null,
+    "source": "tools/zuc256.c"
+  },
+  {
+    "command": "zuc_128_eea3",
+    "scope": "software",
+    "category": "symmetric",
+    "operations": [
+      "zuc_128_eea3"
+    ],
+    "statefulInput": null,
+    "source": "tools/zuc_128_eea3.c"
+  },
+  {
+    "command": "zuc_128_eia3",
+    "scope": "software",
+    "category": "mac",
+    "operations": [
+      "zuc_128_eia3"
+    ],
+    "statefulInput": null,
+    "source": "tools/zuc_128_eia3.c"
+  },
+  {
+    "command": "ghash",
+    "scope": "software",
+    "category": "mac",
+    "operations": [
+      "ghash"
+    ],
+    "statefulInput": null,
+    "source": "tools/ghash.c"
+  },
+  {
+    "command": "sm9setup",
+    "scope": "software",
+    "category": "key",
+    "operations": [
+      "sm9setup"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9setup.c"
+  },
+  {
+    "command": "sm9keygen",
+    "scope": "software",
+    "category": "key",
+    "operations": [
+      "sm9keygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9keygen.c"
+  },
+  {
+    "command": "sm9sign",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm9sign"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9sign.c"
+  },
+  {
+    "command": "sm9verify",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm9verify"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9verify.c"
+  },
+  {
+    "command": "sm9encrypt",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm9encrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9encrypt.c"
+  },
+  {
+    "command": "sm9decrypt",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "sm9decrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9decrypt.c"
+  },
+  {
+    "command": "sm9exch",
+    "scope": "software",
+    "category": "asymmetric",
+    "operations": [
+      "init",
+      "respond",
+      "confirm",
+      "finish"
+    ],
+    "statefulInput": null,
+    "source": "tools/sm9exch.c"
+  },
+  {
+    "command": "cmsparse",
+    "scope": "software",
+    "category": "envelope",
+    "operations": [
+      "cmsparse"
+    ],
+    "statefulInput": null,
+    "source": "tools/cmsparse.c"
+  },
+  {
+    "command": "cmsencrypt",
+    "scope": "software",
+    "category": "envelope",
+    "operations": [
+      "cmsencrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/cmsencrypt.c"
+  },
+  {
+    "command": "cmsdecrypt",
+    "scope": "software",
+    "category": "envelope",
+    "operations": [
+      "cmsdecrypt"
+    ],
+    "statefulInput": null,
+    "source": "tools/cmsdecrypt.c"
+  },
+  {
+    "command": "cmssign",
+    "scope": "software",
+    "category": "envelope",
+    "operations": [
+      "cmssign"
+    ],
+    "statefulInput": null,
+    "source": "tools/cmssign.c"
+  },
+  {
+    "command": "cmsverify",
+    "scope": "software",
+    "category": "envelope",
+    "operations": [
+      "cmsverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/cmsverify.c"
+  },
+  {
+    "command": "tlcp_client",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "tlcp_client"
+    ],
+    "statefulInput": null,
+    "source": "tools/tlcp_client.c"
+  },
+  {
+    "command": "tlcp_server",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "tlcp_server"
+    ],
+    "statefulInput": null,
+    "source": "tools/tlcp_server.c"
+  },
+  {
+    "command": "tls12_client",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "tls12_client"
+    ],
+    "statefulInput": null,
+    "source": "tools/tls12_client.c"
+  },
+  {
+    "command": "tls12_server",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "tls12_server"
+    ],
+    "statefulInput": null,
+    "source": "tools/tls12_server.c"
+  },
+  {
+    "command": "tls13_client",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "tls13_client"
+    ],
+    "statefulInput": null,
+    "source": "tools/tls13_client.c"
+  },
+  {
+    "command": "tls13_server",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "tls13_server"
+    ],
+    "statefulInput": null,
+    "source": "tools/tls13_server.c"
+  },
+  {
+    "command": "sctverify",
+    "scope": "software",
+    "category": "certificate",
+    "operations": [
+      "sctverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/sctverify.c"
+  },
+  {
+    "command": "quic_client",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "quic_client"
+    ],
+    "statefulInput": null,
+    "source": "tools/quic_client.c"
+  },
+  {
+    "command": "quic_server",
+    "scope": "software",
+    "category": "protocol",
+    "operations": [
+      "quic_server"
+    ],
+    "statefulInput": null,
+    "source": "tools/quic_server.c"
+  },
+  {
+    "command": "eckeygen",
+    "scope": "software",
+    "category": "key",
+    "operations": [
+      "eckeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/eckeygen.c"
+  },
+  {
+    "command": "lmskeygen",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "lmskeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/lmskeygen.c"
+  },
+  {
+    "command": "lmssign",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "lmssign"
+    ],
+    "statefulInput": "key",
+    "source": "tools/lmssign.c"
+  },
+  {
+    "command": "lmsverify",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "lmsverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/lmsverify.c"
+  },
+  {
+    "command": "hsskeygen",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "hsskeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/hsskeygen.c"
+  },
+  {
+    "command": "hsssign",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "hsssign"
+    ],
+    "statefulInput": "key",
+    "source": "tools/hsssign.c"
+  },
+  {
+    "command": "hssverify",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "hssverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/hssverify.c"
+  },
+  {
+    "command": "xmsskeygen",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "xmsskeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/xmsskeygen.c"
+  },
+  {
+    "command": "xmsssign",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "xmsssign"
+    ],
+    "statefulInput": "key",
+    "source": "tools/xmsssign.c"
+  },
+  {
+    "command": "xmssverify",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "xmssverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/xmssverify.c"
+  },
+  {
+    "command": "xmssmtkeygen",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "xmssmtkeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/xmssmtkeygen.c"
+  },
+  {
+    "command": "xmssmtsign",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "xmssmtsign"
+    ],
+    "statefulInput": "key",
+    "source": "tools/xmssmtsign.c"
+  },
+  {
+    "command": "xmssmtverify",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "xmssmtverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/xmssmtverify.c"
+  },
+  {
+    "command": "sphincskeygen",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "sphincskeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/sphincskeygen.c"
+  },
+  {
+    "command": "sphincssign",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "sphincssign"
+    ],
+    "statefulInput": null,
+    "source": "tools/sphincssign.c"
+  },
+  {
+    "command": "sphincsverify",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "sphincsverify"
+    ],
+    "statefulInput": null,
+    "source": "tools/sphincsverify.c"
+  },
+  {
+    "command": "kyberkeygen",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "kyberkeygen"
+    ],
+    "statefulInput": null,
+    "source": "tools/kyberkeygen.c"
+  },
+  {
+    "command": "kyberencap",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "kyberencap"
+    ],
+    "statefulInput": null,
+    "source": "tools/kyberencap.c"
+  },
+  {
+    "command": "kyberdecap",
+    "scope": "software",
+    "category": "pqc",
+    "operations": [
+      "kyberdecap"
+    ],
+    "statefulInput": null,
+    "source": "tools/kyberdecap.c"
+  }
+]

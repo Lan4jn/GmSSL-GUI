@@ -1,0 +1,21 @@
+server:
+  port: 8081
+  error:
+    include-message: never
+    include-stacktrace: never
+spring:
+  application:
+    name: gmssl-engine
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  mvc:
+    log-request-details: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
